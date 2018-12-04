@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-projectName=wechatHelper
+projectName=wechat_helper
 
 docker rmi -f ${projectName}
 
