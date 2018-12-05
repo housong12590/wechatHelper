@@ -29,7 +29,7 @@ def refresh_token():
         data = json.loads(req.text, encoding='utf8')
         print(data)
         token = data.get('access_token')
-        redis.setex('wx_token', 7200, token)
+        redis.setex('wx_token', 7200, token or '')
         return token
     else:
         return req.text
