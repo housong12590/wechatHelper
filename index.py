@@ -34,7 +34,7 @@ def access_token():
     if update is False:
         token = redis.get('wx_token')
         if token:
-            return token.decode('utf8')
+            return jsonify({'access_token': token.decode('utf8')})
     errmsg, token = refresh_token()
     if token:
         return jsonify({'access_token': token})
