@@ -12,6 +12,12 @@ def get_access_token():
     token = redis.get('wx_token')
     if token:
         return token.decode('utf8')
+    token = refresh_token() or ''
+    return token
+
+
+@app.route('/refresh_token')
+def refresh_token():
     url = 'https://api.weixin.qq.com/cgi-bin/token'
     params = {
         'grant_type': 'client_credential',
@@ -21,10 +27,12 @@ def get_access_token():
     req = requests.get(url, params)
     if req.status_code == 200:
         data = json.loads(req.text, encoding='utf8')
-        token = data.get('access_token')
         print(data)
-        redis.setex('wx_token', 10, token)
-    return token
+        token = data.get('access_token')
+        redis.setex('wx_token', 7200, token)
+        return token
+    else:
+        return req.text
 
 
 @app.route('/access_token')
