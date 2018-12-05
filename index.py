@@ -22,7 +22,8 @@ def get_access_token():
     if req.status_code == 200:
         data = json.loads(req.text, encoding='utf8')
         token = data.get('access_token')
-        redis.setex('wx_token', 7200, token)
+        print(data)
+        redis.setex('wx_token', 10, token)
     return token
 
 
